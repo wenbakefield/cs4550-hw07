@@ -3,7 +3,7 @@
 export MIX_ENV=prod
 export PORT=4271
 export SECRET_KEY_BASE=insecure
-export DATABASE_URL=ecto://"events":"oud0aeCh1ahz"@localhost/events_prod
+export DATABASE_URL=ecto://"events":"oud0aeCh1ahz"@localhost/events
 
 echo "Building..."
 
