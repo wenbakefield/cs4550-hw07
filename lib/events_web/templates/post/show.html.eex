@@ -1,0 +1,39 @@
+<h1>View Event</h1>
+
+<div class="card">
+  <div class="card-header">
+    <b><%= @post.title %></b>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+    Date: 
+    <%= @post.date.month %>/<%= @post.date.day %>/<%= @post.date.year %>
+    </p>
+    <p class="card-text">
+    Time: 
+    <%= if @post.date.hour < 13 do %>
+        <%= if @post.date.minute < 10 do %>
+            <%= @post.date.hour %>:0<%= @post.date.minute %> am
+        <%= else %>
+            <%= @post.date.hour %>:<%= @post.date.minute %> am
+        <% end %>
+    <%= else %>
+        <%= if @post.date.minute < 10 do %>
+            <%= @post.date.hour-12 %>:0<%= @post.date.minute %> pm
+        <%= else %>
+            <%= @post.date.hour-12 %>:<%= @post.date.minute %> pm
+        <% end %>
+    <% end %>
+    </p>
+    <p class="card-text">Description: <%= @post.description %></p>
+    <%= if @conn.assigns[:current_user] do %>
+        <%= link(
+            "Edit",
+            to: Routes.post_path(@conn, :edit, @post),
+            class: "btn btn-primary"
+            ) 
+        %>
+    <% end %>
+    <%= link "Back", to: "/", class: "btn btn-secondary" %>
+  </div>
+</div>

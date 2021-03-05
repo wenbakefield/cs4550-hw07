@@ -1,0 +1,19 @@
+<h1>User Profile</h1>
+
+<div class="card">
+  <div class="card-header">
+    <b><%= @user.name %></b>
+  </div>
+  <div class="card-body">
+    <p class="card-text">Email: <%= @user.email %></p>
+    <%= if @conn.assigns[:current_user] do %>
+        <%= link(
+            "Edit",
+            to: Routes.user_path(@conn, :edit, @user),
+            class: "btn btn-primary"
+            ) 
+        %>
+    <% end %>
+    <%= link "Back", to: "/", class: "btn btn-secondary" %>
+  </div>
+</div>

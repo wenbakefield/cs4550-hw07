@@ -1,0 +1,11 @@
+/* This file is for your main application css. */
+@import "bootstrap";
+@import "flatpickr";
+
+.invalid-feedback {
+  display: block;
+}
+
+.form-control.flatpickr-datetime {
+  background-color: unset;
+}
