@@ -30,13 +30,13 @@
         <%= if post.date.hour < 13 do %>
           <%= if post.date.minute < 10 do %>
               <%= post.date.hour %>:0<%= post.date.minute %> am
-          <%= else %>
+          <% else %>
               <%= post.date.hour %>:<%= post.date.minute %> am
           <% end %>
-        <%= else %>
+        <% else %>
           <%= if post.date.minute < 10 do %>
               <%= post.date.hour-12 %>:0<%= post.date.minute %> pm
-          <%= else %>
+          <% else %>
               <%= post.date.hour-12 %>:<%= post.date.minute %> pm
           <% end %>
         <% end %>

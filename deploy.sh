@@ -1,8 +1,9 @@
 #!/bin/bash
 
 export MIX_ENV=prod
-export PORT=4270
+export PORT=4271
 export SECRET_KEY_BASE=insecure
+export DATABASE_URL=ecto://"events":"oud0aeCh1ahz"@localhost/events
 
 echo "Building..."
 
@@ -12,7 +13,7 @@ mix compile
 # Taken from CS4550 lecture notes
 # Author: Nat Tuck
 # Attribution: https://github.com/NatTuck/scratch-2021-01/blob/master/4550/0212/hangman/deploy.sh
-CFGD=$(readlink -f ~/.config/bulls)
+CFGD=$(readlink -f ~/.config/events)
 
 if [ ! -d "$CFGD" ]; then
     mkdir -p "$CFGD"
@@ -31,9 +32,6 @@ mix phx.digest
 
 echo "Generating release..."
 mix release
-
-#echo "Stopping old copy of app, if any..."
-#_build/prod/rel/bulls/bin/bulls stop || true
 
 echo "Starting app..."
 
