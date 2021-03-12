@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.invitation_path(@conn, :create)) %>
 
-<span><%= link "Back", to: Routes.invitation_path(@conn, :index) %></span>
+<%= link "Back", to: "/", class: "btn btn-secondary" %>
