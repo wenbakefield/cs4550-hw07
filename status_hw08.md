@@ -19,7 +19,10 @@ events.wenbakefield.com
 
 
 4. Is your app functionality complete? If not, what's missing?
-My app has all the required functionality laid out in the assignment.
+All functionality is present except for prompting a user to
+register when clicking on an invitation link. However, if a user
+is already signed in and they click on the link, they are able
+to view the event.
 
 
 
