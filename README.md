@@ -6,7 +6,7 @@ Profile pictures are expected to be uploaded in a square aspect ratio, but it is
 
 Profile pictures must be below 750 KB in size or the server will return a 413 Request Entity Too Large error.
 
-All fields are required when registering a new user.
+All fields are required when registering a new user, otherwise the server will return an Internal Server Error.
 
 ## Attributions
 
