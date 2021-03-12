@@ -5,8 +5,10 @@
       <h2 class="card-title"><b><%= @post.title %></b></h2>
       <hr/>
       <h5 class="card-subtitle">Posted By:</h5>
-      <img src="<%= Routes.user_path(@conn, :photo, @post.user) %>"  alt="" width="128" height="128">
-      <p class="card-text"><%= @post.user.name %></p>
+      <figure>
+        <img src="<%= Routes.user_path(@conn, :photo, @post.user) %>"  alt="" width="128" height="128">
+        <figcaption class="profile-caption"><%= @post.user.name %></figcaption>
+      </figure>
       <h5 class="card-subtitle">Event Details:</h5>
       <p class="card-text">
       Date: 
@@ -79,6 +81,9 @@
               <div class="comment-text">
                 <p><b><%= comment.user.name %></b><br/>
                 <%= comment.body %></p>
+                <%= if isPoster?(@conn, @post.user_id) || isPoster?(@conn, comment.user_id) do %>
+                  <%= link "Delete", to: Routes.comment_path(@conn, :delete, comment), class: "btn btn-danger", method: :delete, data: [confirm: "Are you sure?"] %>
+                <% end %>
               </div>
             </div>
           </li>
