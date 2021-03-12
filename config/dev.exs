@@ -1,5 +1,7 @@
 use Mix.Config
 
+config :events, :env, :dev
+
 # Configure your database
 config :events, Events.Repo,
   username: "events",

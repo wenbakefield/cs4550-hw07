@@ -44,8 +44,9 @@ defmodule Events.Photos do
 	end
 
 	def base_path(hash) do
+    env = Application.get_env(:events, :env)
 		Path.expand("~/.local/data/events")
-		|> Path.join("#{Mix.env}")
+		|> Path.join("#{env}")
 		|> Path.join(String.slice(hash, 0, 2))
 		|> Path.join(String.slice(hash, 2, 30))
 	end
