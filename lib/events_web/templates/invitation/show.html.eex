@@ -1,0 +1,18 @@
+<h1>Show Invitation</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Email</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @invitation.email %></td>
+      <td><%= @invitation.status %></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link "Back", to: "/", class: "btn btn-secondary" %>

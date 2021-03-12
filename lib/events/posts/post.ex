@@ -6,9 +6,9 @@ defmodule Events.Posts.Post do
     field :date, :naive_datetime
     field :description, :string
     field :title, :string
-    
     belongs_to :user, Events.Users.User
-
+    has_many :comments, Events.Comments.Comment
+    has_many :invitations, Events.Invitations.Invitation
     timestamps()
   end
 

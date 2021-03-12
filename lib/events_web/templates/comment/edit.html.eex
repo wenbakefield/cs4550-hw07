@@ -1,0 +1,5 @@
+<h1>Edit Comment</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.comment_path(@conn, :update, @comment)) %>
+<br />
+<%= link "Cancel", to: "/", class: "btn btn-secondary" %>

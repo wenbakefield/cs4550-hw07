@@ -1,39 +1,98 @@
-<h1>View Event</h1>
-
-<div class="card">
-  <div class="card-header">
-    <b><%= @post.title %></b>
+<%= if isSignedIn?(@conn) do %>
+  <h1>View Event</h1>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title"><b><%= @post.title %></b></h2>
+      <hr/>
+      <h5 class="card-subtitle">Posted By:</h5>
+      <img src="<%= Routes.user_path(@conn, :photo, @post.user) %>"  alt="" width="128" height="128">
+      <p class="card-text"><%= @post.user.name %></p>
+      <h5 class="card-subtitle">Event Details:</h5>
+      <p class="card-text">
+      Date: 
+      <%= @post.date.month %>/<%= @post.date.day %>/<%= @post.date.year %>
+      <br/>
+      Time: 
+      <%= if @post.date.hour < 13 do %>
+          <%= if @post.date.minute < 10 do %>
+              <%= @post.date.hour %>:0<%= @post.date.minute %> am
+          <% else %>
+              <%= @post.date.hour %>:<%= @post.date.minute %> am
+          <% end %>
+      <% else %>
+          <%= if @post.date.minute < 10 do %>
+              <%= @post.date.hour-12 %>:0<%= @post.date.minute %> pm
+          <% else %>
+              <%= @post.date.hour-12 %>:<%= @post.date.minute %> pm
+          <% end %>
+      <% end %>
+      </p>
+      <h5 class="card-subtitle">Description:</h5>
+      <p class="card-text"><%= @post.description %></p>
+      <%= if isPoster?(@conn, @post.user_id) do %>
+          <%= link(
+              "Edit",
+              to: Routes.post_path(@conn, :edit, @post),
+              class: "btn btn-primary"
+              ) 
+          %>
+      <% end %>
+      <hr/>
+      <h5 class="card-subtitle">RSVP:</h5>
+      <br/>
+      <%= if isPoster?(@conn, @post.user_id) do %>
+        <p class="card-text"><%= getStatus(@conn) %></p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Email</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for invitation <- @post.invitations do %>
+              <tr>
+                <td><%= invitation.email %></td>
+                <td><%= invitation.status %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <h5 class="card-subtitle">New Invitation:</h5>
+        <%= render(EventsWeb.InvitationView, "form.html", changeset: @new_invitation, action: Routes.invitation_path(@conn, :create)) %>
+        <br/>
+        <p class="card-text">Generated Link: 
+        <%= link "http://events.wenbakefield.com" <> Routes.post_path(@conn, :show, @post), to: Routes.post_path(@conn, :show, @post) %>
+        </p>
+      <% else %>
+        <%= render(EventsWeb.InvitationView, "edit.html", changeset: @edit_invitation, action: Routes.invitation_path(@conn, :update, @status)) %>
+      <% end %>
+      <hr/>
+      <h5 class="card-subtitle">Comments:</h5>
+      <%= for comment <- @post.comments do %>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="comment-container">
+              <div class="comment-image">
+                <img src="<%= Routes.user_path(@conn, :photo, comment.user) %>" alt="" height="64" width="64" border="1px">
+              </div>
+              <div class="comment-text">
+                <p><b><%= comment.user.name %></b><br/>
+                <%= comment.body %></p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      <% end %>
+      <hr/>
+      <h5 class="card-subtitle">New Comment:</h5>
+      <%= render(EventsWeb.CommentView, "form.html", changeset: @new_comment, action: Routes.comment_path(@conn, :create)) %>
+    </div>
   </div>
-  <div class="card-body">
-    <p class="card-text">
-    Date: 
-    <%= @post.date.month %>/<%= @post.date.day %>/<%= @post.date.year %>
-    </p>
-    <p class="card-text">
-    Time: 
-    <%= if @post.date.hour < 13 do %>
-        <%= if @post.date.minute < 10 do %>
-            <%= @post.date.hour %>:0<%= @post.date.minute %> am
-        <% else %>
-            <%= @post.date.hour %>:<%= @post.date.minute %> am
-        <% end %>
-    <% else %>
-        <%= if @post.date.minute < 10 do %>
-            <%= @post.date.hour-12 %>:0<%= @post.date.minute %> pm
-        <% else %>
-            <%= @post.date.hour-12 %>:<%= @post.date.minute %> pm
-        <% end %>
-    <% end %>
-    </p>
-    <p class="card-text">Description: <%= @post.description %></p>
-    <%= if @conn.assigns[:current_user] do %>
-        <%= link(
-            "Edit",
-            to: Routes.post_path(@conn, :edit, @post),
-            class: "btn btn-primary"
-            ) 
-        %>
-    <% end %>
-    <%= link "Back", to: "/", class: "btn btn-secondary" %>
-  </div>
-</div>
+  <br />
+  <%= link "Back", to: "/", class: "btn btn-secondary" %>
+<% else %>
+  <div class="alert alert-danger">
+      <p>Sign In or Register to view post.</p>
+    </div>
+<% end %>

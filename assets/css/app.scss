@@ -9,3 +9,23 @@
 .form-control.flatpickr-datetime {
   background-color: unset;
 }
+
+.comment-container {
+  display: flex;
+  align-items: left;
+  justify-content: left
+}
+
+.comment-image {
+  flex-basis: 0%
+}
+
+.comment-text {
+  padding-left: 20px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}

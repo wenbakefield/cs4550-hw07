@@ -23,8 +23,18 @@ if [ ! -e "$CFGD/base" ]; then
     mix phx.gen.secret > "$CFGD/base"
 fi
 
+if [ ! -e "$CFGD/dbpw" ]; then
+    pwgen 12 1 > "$CFGD/dbpw"
+fi
+
 SECRET_KEY_BASE=$(cat "$CFGD/base")
 export SECRET_KEY_BASE
+
+# DATABASE_PASSWORD=$(cat "$CFGD/dbpw")
+# export DATABASE_URL=ecto://"events":$DATABASE_PASSWORD@localhost/events
+
+echo "Migrating..."
+mix ecto.migrate
 
 npm install --prefix ./assets
 npm run deploy --prefix ./assets
@@ -34,5 +44,4 @@ echo "Generating release..."
 mix release
 
 echo "Starting app..."
-
 PROD=t ./start.sh

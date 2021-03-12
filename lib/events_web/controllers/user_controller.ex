@@ -3,6 +3,8 @@ defmodule EventsWeb.UserController do
 
   alias Events.Users
   alias Events.Users.User
+  alias Events.Photos
+  alias EventsWeb.SessionController
 
   def index(conn, _params) do
     users = Users.list_users()
@@ -15,14 +17,29 @@ defmodule EventsWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case Users.create_user(user_params) do
-      {:ok, user} ->
-        conn
-        |> put_flash(:info, "User created successfully.")
-        |> redirect(to: Routes.user_path(conn, :show, user))
+    pp = user_params["photo"]
+    user_params = 
+      if pp do 
+        {:ok, hash} = Photos.save_photo(pp.filename, pp.path)
+        Map.put(user_params, "photo_hash", hash)
+      else
+        user_params
+      end
+    if Users.get_user_from_email(user_params["email"]) do 
+      conn
+      |> put_flash(:error, "User already registered!")
+      |> redirect(to: Routes.user_path(conn, :new))
+      |> halt()
+    else
+      case Users.create_user(user_params) do
+        {:ok, user} ->
+          conn
+          |> put_flash(:info, "User created successfully.")
+          SessionController.create(conn, %{"email" => user.email})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, "new.html", changeset: changeset)
+      end
     end
   end
 
@@ -39,6 +56,14 @@ defmodule EventsWeb.UserController do
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Users.get_user!(id)
+    pp = user_params["photo"]
+    user_params = 
+      if pp do
+        {:ok, hash} = Photos.save_photo(pp.filename, pp.path)
+        Map.put(user_params, "photo_hash", hash)
+      else
+        user_params
+      end
 
     case Users.update_user(user, user_params) do
       {:ok, user} ->
@@ -58,5 +83,13 @@ defmodule EventsWeb.UserController do
     conn
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: Routes.user_path(conn, :index))
+  end
+  
+  def photo(conn, %{"id" => id}) do
+  	user = Users.get_user!(id)
+  	{:ok, _name, data} = Photos.load_photo(user.photo_hash)
+  	conn
+  	|> put_resp_content_type("image/jpeg")
+  	|> send_resp(200, data)
   end
 end

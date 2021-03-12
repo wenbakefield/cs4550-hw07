@@ -1,11 +1,13 @@
 <h1>User Profile</h1>
 
-<div class="card">
+<div class="card" style="width: 15rem;">
   <div class="card-header">
     <b><%= @user.name %></b>
   </div>
+  <img class="card-img-top" src="<%= Routes.user_path(@conn, :photo, @user) %>" alt="" width="512" height="512">
   <div class="card-body">
-    <p class="card-text">Email: <%= @user.email %></p>
+    <p class="card-subtitle">Email: <%= @user.email %></p>
+    <p class="card-text"><%= @user.bio %></p>
     <%= if @conn.assigns[:current_user] do %>
         <%= link(
             "Edit",
