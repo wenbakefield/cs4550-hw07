@@ -6,7 +6,7 @@ Profile pictures are expected to be uploaded in a square aspect ratio, but it is
 
 ## Attributions
 
-### The entire app was based on the PhotoBlog lecture notes, which went through every step required.
+### The entire app was based on the PhotoBlog lecture notes.
 
 Author: Nat Tuck
 
