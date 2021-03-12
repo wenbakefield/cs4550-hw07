@@ -4,6 +4,8 @@
 
 Profile pictures are expected to be uploaded in a square aspect ratio, but it is not required.
 
+All fields are required when registering a new user.
+
 ## Attributions
 
 ### The entire app was based on the PhotoBlog lecture notes.
