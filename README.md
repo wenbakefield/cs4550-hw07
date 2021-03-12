@@ -1,4 +1,10 @@
-# Attributions
+# Homework 8: Events App (Part 2)
+
+## Design
+
+Profile pictures are expected to be uploaded in a square aspect ratio, but it is not required.
+
+## Attributions
 
 ### The entire app was based on the PhotoBlog lecture notes, which went through every step required.
 
